@@ -16,12 +16,12 @@ def encrypt(value, main_key, r):
     return values_to_string(values)
 
 
-def values_to_string(value_mas):
-    value_mas = [hex(i)[2:] for i in value_mas]
-    for i in range(len(value_mas)):
-        value_mas[i] = "".join(["0" for t in range(8 - len(value_mas[i]))]) + value_mas[i]
-    value_mas = value_mas[0] + value_mas[1] + value_mas[2] + value_mas[3]
-    return value_mas.upper()
+def values_to_string(values):
+    values = [hex(i)[2:] for i in values]
+    for i in range(len(values)):
+        values[i] = "".join(["0" for t in range(8 - len(values[i]))]) + values[i]
+    values = values[0] + values[1] + values[2] + values[3]
+    return values.upper()
 
 
 def decrypt(value, main_key, r):
@@ -37,29 +37,29 @@ def decrypt(value, main_key, r):
     return values_to_string(value_mas)
 
 
-def enc_start_xor(value_mas, K1, K2):
-    A, B, C, D = value_mas[0], value_mas[1], value_mas[2], value_mas[3]
+def enc_start_xor(values, K1, K2):
+    A, B, C, D = values[0], values[1], values[2], values[3]
     B = mod(B + K1, 2 ** 32)
     D = mod(D + K2, 2 ** 32)
     return A, B, C, D
 
 
-def enc_end_xor(value_mas, K1, K2):
-    A, B, C, D = value_mas[0], value_mas[1], value_mas[2], value_mas[3]
+def enc_end_xor(values, K1, K2):
+    A, B, C, D = values[0], values[1], values[2], values[3]
     A = mod(A + K1, 2 ** 32)
     C = mod(C + K2, 2 ** 32)
     return A, B, C, D
 
 
-def dec_start_xor(value_mas, K1, K2):
-    A, B, C, D = value_mas[0], value_mas[1], value_mas[2], value_mas[3]
+def dec_start_xor(values, K1, K2):
+    A, B, C, D = values[0], values[1], values[2], values[3]
     A = mod(A - K1, 2 ** 32)
     C = mod(C - K2, 2 ** 32)
     return A, B, C, D
 
 
-def dec_end_xor(value_mas, K1, K2):
-    A, B, C, D = value_mas[0], value_mas[1], value_mas[2], value_mas[3]
+def dec_end_xor(values, K1, K2):
+    A, B, C, D = values[0], values[1], values[2], values[3]
     B = mod(B - K1, 2 ** 32)
     D = mod(D - K2, 2 ** 32)
     return A, B, C, D
